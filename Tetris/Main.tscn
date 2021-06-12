@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://prefab4.tscn" type="PackedScene" id=2]
@@ -9,6 +9,9 @@
 [ext_resource path="res://block2.tscn" type="PackedScene" id=7]
 [ext_resource path="res://blz.tscn" type="PackedScene" id=8]
 [ext_resource path="res://new_dynamicfont.tres" type="DynamicFont" id=9]
+[ext_resource path="res://dpad/DPad.tscn" type="PackedScene" id=10]
+[ext_resource path="res://flatDark44.png" type="Texture" id=11]
+[ext_resource path="res://flatDark13.png" type="Texture" id=12]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
@@ -16,18 +19,43 @@ Prefabs = [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 2
 block = ExtResource( 7 )
 bb = ExtResource( 8 )
 
-[node name="CreatePoint" type="Node2D" parent="."]
-visible = false
-position = Vector2( 380, 49 )
-
 [node name="Label" type="Label" parent="."]
+show_behind_parent = true
 margin_left = 40.0
 margin_top = 2.0
-margin_right = 142.0
-margin_bottom = 71.0
+margin_right = 197.0
+margin_bottom = 103.0
 custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0, 0.576471, 1, 1 )
 text = "Score:0
 "
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+position = Vector2( 0, -5.65686 )
+z_index = -1
+polygon = PoolVector2Array( 1024.99, -5.72339, 316.986, -13.7234, -39.4619, -27.1717, -98.8588, 677.107, 1117.36, 679.935, 1207.87, -157.279 )
+
+[node name="CreatePoint" type="Node2D" parent="."]
+visible = false
+position = Vector2( 380, 49 )
+
+[node name="TouchScreenButton" type="TouchScreenButton" parent="."]
+position = Vector2( 124.727, 41.9411 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 11 )
+pressed = ExtResource( 11 )
+action = "ui_select"
+
+[node name="pause" type="TouchScreenButton" parent="."]
+position = Vector2( 17.6434, 47.7695 )
+scale = Vector2( 2.08925, 2.08926 )
+normal = ExtResource( 12 )
+pressed = ExtResource( 12 )
+action = "ui_accept"
+
+[node name="d-pad" parent="." instance=ExtResource( 10 )]
+show_behind_parent = true
+position = Vector2( 120.75, 182.817 )

@@ -14,6 +14,10 @@ config/name="Tetris"
 run/main_scene="res://Main.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/handheld/orientation="portrait"
+
 [layer_names]
 
 2d_render/layer_1="ablock"
