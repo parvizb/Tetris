@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://prefab4.tscn" type="PackedScene" id=2]
@@ -9,29 +9,48 @@
 [ext_resource path="res://block2.tscn" type="PackedScene" id=7]
 [ext_resource path="res://blz.tscn" type="PackedScene" id=8]
 [ext_resource path="res://new_dynamicfont.tres" type="DynamicFont" id=9]
-[ext_resource path="res://dpad/DPad.tscn" type="PackedScene" id=10]
+[ext_resource path="res://flatDark02.png" type="Texture" id=10]
 [ext_resource path="res://flatDark44.png" type="Texture" id=11]
 [ext_resource path="res://flatDark13.png" type="Texture" id=12]
+[ext_resource path="res://flatDark09.png" type="Texture" id=13]
+[ext_resource path="res://flatDark04.png" type="Texture" id=14]
+[ext_resource path="res://flatDark05.png" type="Texture" id=15]
+[ext_resource path="res://tempblock.tscn" type="PackedScene" id=16]
 
 [node name="Node2D" type="Node2D"]
 script = ExtResource( 1 )
 Prefabs = [ ExtResource( 4 ), ExtResource( 6 ), ExtResource( 5 ), ExtResource( 2 ), ExtResource( 3 ) ]
 block = ExtResource( 7 )
 bb = ExtResource( 8 )
+tempblock = ExtResource( 16 )
 
-[node name="Label" type="Label" parent="."]
-show_behind_parent = true
-margin_left = 40.0
-margin_top = 2.0
-margin_right = 197.0
-margin_bottom = 103.0
-custom_fonts/font = ExtResource( 9 )
-custom_colors/font_color = Color( 0, 0.576471, 1, 1 )
-text = "Score:0
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="left" type="TouchScreenButton" parent="."]
+position = Vector2( 124.727, 41.9411 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 14 )
+pressed = ExtResource( 14 )
+action = "ui_left"
+
+[node name="right" type="TouchScreenButton" parent="."]
+position = Vector2( 249.727, 41.9411 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 15 )
+pressed = ExtResource( 15 )
+action = "ui_right"
+
+[node name="up" type="TouchScreenButton" parent="."]
+position = Vector2( 389.727, 41.9411 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 13 )
+pressed = ExtResource( 13 )
+action = "ui_up"
+
+[node name="down" type="TouchScreenButton" parent="."]
+position = Vector2( 389.727, 41.9411 )
+scale = Vector2( 1.5, 1.5 )
+normal = ExtResource( 10 )
+pressed = ExtResource( 10 )
+action = "ui_down"
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2( 0, -5.65686 )
@@ -43,7 +62,7 @@ visible = false
 position = Vector2( 380, 49 )
 
 [node name="TouchScreenButton" type="TouchScreenButton" parent="."]
-position = Vector2( 124.727, 41.9411 )
+position = Vector2( 285.948, 194.676 )
 scale = Vector2( 1.5, 1.5 )
 normal = ExtResource( 11 )
 pressed = ExtResource( 11 )
@@ -56,6 +75,18 @@ normal = ExtResource( 12 )
 pressed = ExtResource( 12 )
 action = "ui_accept"
 
-[node name="d-pad" parent="." instance=ExtResource( 10 )]
+[node name="Labe" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="Labe"]
 show_behind_parent = true
-position = Vector2( 120.75, 182.817 )
+margin_left = -2.42648
+margin_top = -14.9706
+margin_right = 154.574
+margin_bottom = 86.0294
+custom_fonts/font = ExtResource( 9 )
+custom_colors/font_color = Color( 0, 0.576471, 1, 1 )
+text = "Score:0
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}

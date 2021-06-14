@@ -11,6 +11,8 @@ var starty=0;
 var totalRow=0;
 var GameLosed=false;
 export var bb:PackedScene;
+export var tempblock:PackedScene;
+var tblocks=[];
 var score=0;
 var partSize=64
 # Declare member variables here. Examples:
@@ -19,19 +21,22 @@ var partSize=64
 func Init():
 	#$Label.z=9999
 	#$Label.z_index=1;
-	$"d-pad".z_index=1;
-	var z=get_viewport_rect().size 
-	$"d-pad".position=Vector2(z.x*0.2,z.y-250)
-	$"d-pad/up".global_position.x = z.x- partSize*6;
-	$"d-pad/down".global_position.x = z.x- partSize*6;
-	 
+	for z in range(0,4):
+		var teb=tempblock.instance()
+		teb.scale=Vector2(partSize/32,partSize/32)
+		tblocks.append(teb)
+		add_child(teb)
 	
-	$"d-pad".scale=Vector2(partSize/32,partSize/32)
+	var z=get_viewport_rect().size 
+	var buttons=[$left,$right,$up,$down,$pause,$TouchScreenButton]
+	
+	
+	 
 	partSize=z.x/10;
 	$CreatePoint.position=Vector2(z.x/2,0)
 	$Polygon2D.scale=Vector2(100,100)
 	var i=0;
-	while(i<z.y+partSize):
+	while(i< (z.y*0.75 )+partSize):
 		totalRow+=1
 		var t=block.instance()
 		t.position=Vector2(0,i)
@@ -48,12 +53,18 @@ func Init():
 	starty=ty-partSize-partSize
 	while(i<z.x):
 		var t=block.instance()
-		t.position=Vector2(i,ty-partSize)
+		t.position=Vector2(i,ty)
 		t.scale=Vector2(partSize/32,partSize/32)
 		add_child(t)
 		i+=partSize
 		totalCount+=1
 	totalCount-=2
+	$Labe.position.y=starty+partSize*3;
+	for z3 in range(0,buttons.size()):
+		buttons[z3].global_position.x= z3 * (z.x/buttons.size())
+		
+		buttons[z3].global_position.y=starty+partSize*4;
+	starty+=partSize
 func createPrefab():
 	var rng = RandomNumberGenerator.new()
 	rng.randomize()
@@ -67,6 +78,7 @@ func createPrefab():
 	for xx in floatblocks:
 		xx.scale=Vector2(0.25,0.25)
 	print(floatblocks.size())
+	resetGhostBlocks()
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -113,13 +125,17 @@ func _physics_process(delta):
 		if(Input.is_action_pressed("ui_left")):
 			if(checkFree(Vector2(-partSize,0))):
 				currentPrefab.position+=Vector2(-partSize,0)
+				resetGhostBlocks()
 		if(Input.is_action_pressed("ui_right")):
 			if(checkFree(Vector2(partSize,0))):
 				currentPrefab.position+=Vector2(partSize,0)
+				resetGhostBlocks()
 		if(Input.is_action_pressed("ui_up")):
 			currentPrefab.rotation_degrees+=90
 			if(checkFree(Vector2(1,0))==false):
 				 currentPrefab.rotation_degrees-=90
+			else:
+				resetGhostBlocks()
 		mtime=0
 	innerTime+=delta
 	if(Input.is_action_pressed("ui_down")):
@@ -134,7 +150,7 @@ func _physics_process(delta):
 			createPrefab()
 			if(checkFree(Vector2(0,1))==false):
 				GameLosed=true;
-				$Label.text+=" You Losed!"
+				$Labe/Label.text+=" You Losed!"
 			
 func clearfilledRow():
 	var counter=Array();
@@ -161,7 +177,7 @@ func clearfilledRow():
 					 z2.position.y+=partSize
 	p=p*p;
 	score+=p*100;
-	$Label.text="Score:" + str(score)
+	$Labe/Label.text="Score:" + str(score)
 
 	pass
 	
@@ -169,3 +185,11 @@ func clearfilledRow():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
+func resetGhostBlocks():
+	var y=0
+	while(checkFree(Vector2(0,y*partSize))==true):
+		y+=1
+	for z in range(0,4):
+		tblocks[z].position=floatblocks[z].global_position
+		tblocks[z].position.y+=(y-1)*partSize
+		
